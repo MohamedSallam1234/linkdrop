@@ -5,7 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 authors = [{ name = "Mohamed sallam", email = "sallamm733@gmail.com" }]
 requires-python = ">=3.12"
-dependencies = ["fastapi[standard]>=0.136.0"]
+dependencies = [
+    "fastapi[standard]>=0.136.0",
+    "pydantic>=2.13.2",
+    "pydantic-settings>=2.13.1",
+]
 
 [project.scripts]
 linkdrop = "linkdrop:main"
@@ -16,3 +20,7 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = ["httpx>=0.28.1", "pytest>=9.0.3", "pytest-cov>=7.1.0", "ruff>=0.15.11"]
+
+[tool.pyright]
+include = ["src"]
+extraPaths = ["src"]

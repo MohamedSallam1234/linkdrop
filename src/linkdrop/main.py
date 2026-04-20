@@ -1,10 +1,9 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+
+from linkdrop.core.config import Settings, get_settings
 
 
 def create_app() -> FastAPI:
-    # The kwargs below aren't mandatory, but they control how /docs
-    # and /openapi.json appear. It pays to set them early — your future
-    # self (and API consumers) will thank you.
     app = FastAPI(
         title="LinkDrop",
         description="A personal URL shortener with tags and analytics.",
@@ -14,8 +13,8 @@ def create_app() -> FastAPI:
     )
 
     @app.get("/health", tags=["meta"])
-    def health() -> dict[str, str]:
-        return {"status": "ok"}
+    def health(settings: Settings = Depends(get_settings)) -> dict[str, str]:
+        return {"status": "ok", "env": settings.app_env}
 
     return app
 
