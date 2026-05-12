@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16
+    container_name: linkdrop-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: linkdrop
+    ports:
+      - "5432:5432"
+    volumes:
+      - linkdrop-pgdatadrop-data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    healthcheck:
+      test: [ "CMD-SHELL","pg_isready -U  postgres -d linkdrop" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  linkdrop-pgdatadrop-data:
